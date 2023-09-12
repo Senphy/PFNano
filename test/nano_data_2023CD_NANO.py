@@ -2,13 +2,12 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: nano_data_2022FG --data --eventcontent NANOAOD --datatier NANOAOD --step NANO --conditions 124X_dataRun3_PromptAnalysis_v2 --era Run3,run3_nanoAOD_124 --customise_commands=process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)));process.MessageLogger.cerr.FwkReport.reportEvery=1000;process.NANOAODoutput.fakeNameForCrab = cms.untracked.bool(True) --nThreads 4 -n -1 --filein /store/data/Run2022F/Muon/MINIAOD/PromptReco-v1/000/360/381/00000/0736ad9a-2b1d-4375-9493-9e7e01538978.root --fileout file:nano_data2022FG.root --customise=PhysicsTools/PFNano/puppiJetMETReclustering_cff.nanoPuppiReclusterCustomize_Data --customise=PhysicsTools/PFNano/pfnano_cff.PFnano_customizeData --no_exec
+# with command line options: nano_data_2023CD --data --eventcontent NANOAOD --datatier NANOAOD --step NANO --conditions 130X_dataRun3_Prompt_v3 --era Run3_2023 --customise_commands=process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)));process.MessageLogger.cerr.FwkReport.reportEvery=1000;process.NANOAODoutput.fakeNameForCrab = cms.untracked.bool(True) --nThreads 4 -n -1 --filein /store/data/Run2023C/BTagMu/MINIAOD/PromptReco-v4/000/367/772/00000/092daf0f-2498-4164-9ed2-0d17029fc028.root --fileout file:nano_data2023CD.root --customise=PhysicsTools/PFNano/pfnano_cff.PFnano_customizeData --no_exec
 import FWCore.ParameterSet.Config as cms
 
-from Configuration.Eras.Era_Run3_cff import Run3
-from Configuration.Eras.Modifier_run3_nanoAOD_124_cff import run3_nanoAOD_124
+from Configuration.Eras.Era_Run3_2023_cff import Run3_2023
 
-process = cms.Process('NANO',Run3,run3_nanoAOD_124)
+process = cms.Process('NANO',Run3_2023)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -28,7 +27,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('/store/data/Run2022F/Muon/MINIAOD/PromptReco-v1/000/360/381/00000/0736ad9a-2b1d-4375-9493-9e7e01538978.root'),
+    fileNames = cms.untracked.vstring('/store/data/Run2023C/BTagMu/MINIAOD/PromptReco-v4/000/367/772/00000/092daf0f-2498-4164-9ed2-0d17029fc028.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -66,7 +65,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('nano_data_2022FG nevts:-1'),
+    annotation = cms.untracked.string('nano_data_2023CD nevts:-1'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -80,7 +79,7 @@ process.NANOAODoutput = cms.OutputModule("NanoAODOutputModule",
         dataTier = cms.untracked.string('NANOAOD'),
         filterName = cms.untracked.string('')
     ),
-    fileName = cms.untracked.string('file:nano_data2022FG.root'),
+    fileName = cms.untracked.string('file:nano_data2023CD.root'),
     outputCommands = process.NANOAODEventContent.outputCommands
 )
 
@@ -88,7 +87,7 @@ process.NANOAODoutput = cms.OutputModule("NanoAODOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '124X_dataRun3_PromptAnalysis_v2', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, '130X_dataRun3_Prompt_v3', '')
 
 # Path and EndPath definitions
 process.nanoAOD_step = cms.Path(process.nanoSequence)
@@ -111,12 +110,6 @@ from PhysicsTools.NanoAOD.nano_cff import nanoAOD_customizeCommon
 
 #call to customisation function nanoAOD_customizeCommon imported from PhysicsTools.NanoAOD.nano_cff
 process = nanoAOD_customizeCommon(process)
-
-# Automatic addition of the customisation function from PhysicsTools.PFNano.puppiJetMETReclustering_cff
-from PhysicsTools.PFNano.puppiJetMETReclustering_cff import nanoPuppiReclusterCustomize_Data 
-
-#call to customisation function nanoPuppiReclusterCustomize_Data imported from PhysicsTools.PFNano.puppiJetMETReclustering_cff
-process = nanoPuppiReclusterCustomize_Data(process)
 
 # Automatic addition of the customisation function from PhysicsTools.PFNano.pfnano_cff
 from PhysicsTools.PFNano.pfnano_cff import PFnano_customizeData 

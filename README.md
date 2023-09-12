@@ -3,9 +3,9 @@
 **You are currently viewing a development branch**  
 Uses PUPPI Jets as default for Run3.
 
-This branch runs with 2022 data (ReRecoCDE and PromptRecoFG), MC for Run3 (Run3Summer22 and Run3Summer22EE, nanoAODv11),
+This branch runs with 2023 data (PromptRecoCD), MC for Run3 (Run3Summer22 and Run3Summer22EE, nanoAODv12),
 in 13_0_X.
-This branch reruns Puppi v17, reclusters the AK8 Puppi and AK8 taggers, and then reruns the new AK4 taggers (new DeepJet, new ParticleNetAK4 and RobustParTAK4) available from 13_0_X.
+This branch reclusters the AK8 Puppi and AK8 taggers, and then reruns the new AK4 taggers (new DeepJet, new ParticleNetAK4 and RobustParTAK4) available from 13_0_X.
 
 If you are searching for a recipe to run with Run2 samples, please have a look at the master branch (106X).
 
@@ -16,17 +16,17 @@ This format can be used with [fastjet](http://fastjet.fr) directly.
 
 ## Recipe
 
-For 2022 data and MC **NanoAOD v11** according to the [XPOG](https://gitlab.cern.ch/cms-nanoAOD/nanoaod-doc/-/wikis/Releases/NanoAODv11) and [PPD](https://twiki.cern.ch/twiki/bin/view/CMS/PdmVRun3Analysis) recommendations:
+For 2023 data and MC **NanoAOD v12** according to the [XPOG](https://gitlab.cern.ch/cms-nanoAOD/nanoaod-doc/-/wikis/Releases/NanoAODv12) and [PPD](https://twiki.cern.ch/twiki/bin/view/CMS/PdmVRun3Analysis) recommendations:
 
 (Note: this branch runs on NanoAOD v11 data and MC in 13_0_X, to mimic the NanoAOD v12 condition)
 
 
 ```
-cmsrel CMSSW_13_0_8
-cd CMSSW_13_0_8/src
+cmsrel CMSSW_13_0_10
+cd CMSSW_13_0_10/src
 cmsenv
 git cms-merge-topic colizz:dev-130X-addNegPNet # adding negative tag
-git clone https://github.com/cms-jet/PFNano.git PhysicsTools/PFNano -b 13_0_7_from124MiniAOD
+git clone https://github.com/cms-jet/PFNano.git PhysicsTools/PFNano -b 13_0_10_from130MiniAOD
 scram b -j 10
 cd PhysicsTools/PFNano/test
 ```
@@ -71,41 +71,21 @@ Two imporant parameters that one needs to verify in the central nanoAOD document
     
     
 ```
-cmsDriver.py nano_data_2022CDE --data --eventcontent NANOAOD --datatier NANOAOD --step NANO \
---conditions 124X_dataRun3_v15   --era Run3,run3_nanoAOD_124 \
+cmsDriver.py nano_data_2023CD --data --eventcontent NANOAOD --datatier NANOAOD --step NANO \
+--conditions 130X_dataRun3_Prompt_v3 --era Run3_2023 \
 --customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)));process.MessageLogger.cerr.FwkReport.reportEvery=1000;process.NANOAODoutput.fakeNameForCrab = cms.untracked.bool(True)" --nThreads 4 \
--n -1 --filein "/store/data/Run2022C/BTagMu/MINIAOD/27Jun2023-v2/80000/000213fb-0712-4a0f-b015-e2334144b2a8.root" --fileout file:nano_data2022CDE.root \
---customise="PhysicsTools/PFNano/puppiJetMETReclustering_cff.nanoPuppiReclusterCustomize_Data" \
---customise="PhysicsTools/PFNano/pfnano_cff.PFnano_customizeData"  --no_exec
-```
-
-```
-cmsDriver.py nano_data_2022FG --data --eventcontent NANOAOD --datatier NANOAOD --step NANO \
---conditions 124X_dataRun3_PromptAnalysis_v2   --era Run3,run3_nanoAOD_124 \
---customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)));process.MessageLogger.cerr.FwkReport.reportEvery=1000;process.NANOAODoutput.fakeNameForCrab = cms.untracked.bool(True)" --nThreads 4 \
--n -1 --filein "/store/data/Run2022F/Muon/MINIAOD/PromptReco-v1/000/360/381/00000/0736ad9a-2b1d-4375-9493-9e7e01538978.root" --fileout file:nano_data2022FG.root \
---customise="PhysicsTools/PFNano/puppiJetMETReclustering_cff.nanoPuppiReclusterCustomize_Data" \
+-n -1 --filein "/store/data/Run2023C/BTagMu/MINIAOD/PromptReco-v4/000/367/772/00000/092daf0f-2498-4164-9ed2-0d17029fc028.root" --fileout file:nano_data2023CD.root \
 --customise="PhysicsTools/PFNano/pfnano_cff.PFnano_customizeData"  --no_exec
 ```
 
 ```    
-cmsDriver.py nano_mc_Run3 --mc --eventcontent NANOAODSIM --datatier NANOAODSIM --step NANO \
---conditions 126X_mcRun3_2022_realistic_v2   --era Run3,run3_nanoAOD_124 \
+cmsDriver.py nano_mc_Run3_2023 --mc --eventcontent NANOAODSIM --datatier NANOAODSIM --step NANO \
+--conditions 130X_mcRun3_2023_realistic_v14 --era Run3_2023 \
 --customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)));process.MessageLogger.cerr.FwkReport.reportEvery=1000;process.NANOAODSIMoutput.fakeNameForCrab = cms.untracked.bool(True)" --nThreads 4 \
--n -1 --filein "/store/mc/Run3Summer22MiniAODv3/QCD_PT-15to20_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/MINIAODSIM/124X_mcRun3_2022_realistic_v12-v1/30000/8590bc1e-abd3-4be4-a068-16f4cb6b4994.root" --fileout file:nano_mcRun3.root \
---customise="PhysicsTools/PFNano/puppiJetMETReclustering_cff.nanoPuppiReclusterCustomize_MC" \
+-n -1 --filein "/store/mc/Run3Winter23MiniAOD/QCD_PT-20to30_MuEnrichedPT5_TuneCP5_13p6TeV_pythia8/MINIAODSIM/126X_mcRun3_2023_forPU65_v1-v2/50000/4d94edcc-edc8-4dd2-9673-007f0fa09e55.root" --fileout file:nano_mcRun3_2023.root \
 --customise="PhysicsTools/PFNano/pfnano_cff.PFnano_customizeMC"  --no_exec
 ```
 
-```    
-cmsDriver.py nano_mc_Run3_EE --mc --eventcontent NANOAODSIM --datatier NANOAODSIM --step NANO \
---conditions 126X_mcRun3_2022_realistic_postEE_v4   --era Run3,run3_nanoAOD_124 \
---customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)));process.MessageLogger.cerr.FwkReport.reportEvery=1000;process.NANOAODSIMoutput.fakeNameForCrab = cms.untracked.bool(True)" --nThreads 4 \
--n -1 --filein "/store/mc/Run3Summer22EEMiniAODv3/QCD_PT-80to120_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/MINIAODSIM/124X_mcRun3_2022_realistic_postEE_v1-v1/2550000/eddaff63-eb30-4155-afdc-3db5b07105b8.root" --fileout file:nano_mcRun3_EE.root \
---customise="PhysicsTools/PFNano/puppiJetMETReclustering_cff.nanoPuppiReclusterCustomize_MC" \
---customise="PhysicsTools/PFNano/pfnano_cff.PFnano_customizeMC"  --no_exec
-```
-    
 </details>
 
 
@@ -121,7 +101,7 @@ submission yaml card `card_example_data.yml` are provided. Fill out the individu
   source /cvmfs/cms.cern.ch/common/crab-setup.sh prod # note: this is new w.r.t. 106X instructions
   source /cvmfs/cms.cern.ch/cmsset_default.sh
   voms-proxy-init --voms cms --valid 192:00
-  cd CMSSW_13_0_8/src
+  cd CMSSW_13_0_10/src
   cmsenv
   cd PhysicsTools/PFNano/test
   python3 crabby.py -c card_example_dataABCD.yml --make --submit
@@ -142,6 +122,11 @@ submission yaml card `card_example_data.yml` are provided. Fill out the individu
 ## Processing data
 
 When processing data, a lumi mask should be applied. The so called golden JSON should be applicable in most cases. Should also be checked here https://twiki.cern.ch/twiki/bin/view/CMS/PdmV
+
+ * Golden JSON prompt
+```
+# 2023: /eos/user/c/cmsdqm/www/CAF/certification/Collisions23/Cert_Collisions2023_366442_370790_Golden.json
+```
 
  * Golden JSON re-reco
 ```
