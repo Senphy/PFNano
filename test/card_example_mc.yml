@@ -23,5 +23,5 @@ campaign:
   # do NOT submit too many tasks at the same time, despite it looking more convenient to you
   # wait for tasks to finish before submitting entire campaigns,
   # it's better to request one dataset at a time (taking fairshare into account)
-  datasets: /QCD_PT-15to20_MuEnrichedPt5_TuneCP5_13p6TeV_pythia8/Run3Summer22MiniAODv3-124X_mcRun3_2022_realistic_v12-v1/MINIAODSIM
+  datasets: /RelValTTbar_SemiLeptonic_PU_13p6/CMSSW_13_0_11-PU_130X_mcRun3_2023_realistic_relvals2023C_v2_RV201-v1/MINIAODSIM
   

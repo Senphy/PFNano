@@ -3,14 +3,14 @@
 **You are currently viewing a development branch**  
 Uses PUPPI Jets as default for Run3.
 
-This branch runs with 2023 data (PromptRecoCD), MC for Run3 (Run3Summer22 and Run3Summer22EE, nanoAODv12),
+This branch runs with 2023 data (PromptRecoCD), MC for Run3 (Run3Summer23, nanoAODv12),
 in 13_0_X.
 This branch reclusters the AK8 Puppi and AK8 taggers, and then reruns the new AK4 taggers (new DeepJet, new ParticleNetAK4 and RobustParTAK4) available from 13_0_X.
 
 If you are searching for a recipe to run with Run2 samples, please have a look at the master branch (106X).
 
 This is a [NanoAOD](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookNanoAOD) framework for advance developments of jet algorithms. 
-For data, the current full content of this development branch can be seen [here](https://denise-muller.web.cern.ch/PFNano/desc_data2022.html) and the size [here](https://denise-muller.web.cern.ch/PFNano/size_data2022.html). For MC, the description can be accessed [here](https://denise-muller.web.cern.ch/PFNano/desc_mc2022.html) and the size [here](https://denise-muller.web.cern.ch/PFNano/size_mc2022.html).
+For data, the current full content of this development branch can be seen [here](https://sdeng.web.cern.ch/sdeng/BTV/PFNano_test_230911/nano_data2023CD_description.html) and the size [here](https://sdeng.web.cern.ch/sdeng/BTV/PFNano_test_230911/nano_data2023CD_size.html). For MC, the description can be accessed [here](https://sdeng.web.cern.ch/sdeng/BTV/PFNano_test_230911/nano_mc2023_description.html) and the size [here](https://sdeng.web.cern.ch/sdeng/BTV/PFNano_test_230911/nano_mc2023_size.html).
 In this version, PFcandidates can be saved for AK4 only, AK8 only, or all the PF candidates. More below.
 This format can be used with [fastjet](http://fastjet.fr) directly.
 
@@ -82,7 +82,7 @@ cmsDriver.py nano_data_2023CD --data --eventcontent NANOAOD --datatier NANOAOD -
 cmsDriver.py nano_mc_Run3_2023 --mc --eventcontent NANOAODSIM --datatier NANOAODSIM --step NANO \
 --conditions 130X_mcRun3_2023_realistic_v14 --era Run3_2023 \
 --customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)));process.MessageLogger.cerr.FwkReport.reportEvery=1000;process.NANOAODSIMoutput.fakeNameForCrab = cms.untracked.bool(True)" --nThreads 4 \
--n -1 --filein "/store/mc/Run3Winter23MiniAOD/QCD_PT-20to30_MuEnrichedPT5_TuneCP5_13p6TeV_pythia8/MINIAODSIM/126X_mcRun3_2023_forPU65_v1-v2/50000/4d94edcc-edc8-4dd2-9673-007f0fa09e55.root" --fileout file:nano_mcRun3_2023.root \
+-n -1 --filein "/store/relval/CMSSW_13_0_11/RelValTTbar_SemiLeptonic_PU_13p6/MINIAODSIM/PU_130X_mcRun3_2023_realistic_relvals2023C_v2_RV201-v1/2580000/c822ec51-bc71-4b84-9648-17ba030dcf8d.root" --fileout file:nano_mcRun3_2023.root \
 --customise="PhysicsTools/PFNano/pfnano_cff.PFnano_customizeMC"  --no_exec
 ```
 
@@ -92,7 +92,7 @@ cmsDriver.py nano_mc_Run3_2023 --mc --eventcontent NANOAODSIM --datatier NANOAOD
 ## Submission to CRAB
 
 For crab submission a handler script `crabby.py`, a crab baseline template `template_crab.py` and an example 
-submission yaml card `card_example_data.yml` are provided. Fill out the individual entries for each new submission, e.g. dataset from DAS. @BTV-Commissioning-Team: this is also the file to put "BTV_Run3_2022_Comm_v2" for the output folder.
+submission yaml card `card_example_data.yml` are provided. Fill out the individual entries for each new submission, e.g. dataset from DAS. @BTV-Commissioning-Team: this is also the file to put "BTV_Run3_2023_Comm_v1" for the output folder.
 
 - A single campaign (data/mc, year, config, output path) should be configured statically in a copy of `card_example_dataABCD.yml`.
 - To submit:
